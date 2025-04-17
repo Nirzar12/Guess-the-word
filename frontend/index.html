@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="wordGameApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Word Game</title>
+
+  <!-- AngularJS CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+  <!-- Bootstrap CDN for styling -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS for dark theme -->
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .container {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .form-control, .btn {
+      background-color: #333333;
+      border: 1px solid #444444;
+      color: #ffffff;
+    }
+    .btn-primary, .btn-success {
+      background-color: #4CAF50;
+      border: none;
+    }
+    .btn-danger {
+      background-color: #f44336;
+    }
+    .alert {
+      background-color: #444444;
+      color: #ffffff;
+      border: 1px solid #555555;
+    }
+    .alert-info {
+      background-color: #2196F3;
+    }
+    .alert-warning {
+      background-color: #ff9800;
+    }
+    .alert-secondary {
+      background-color: #757575;
+    }
+    h2 {
+      color: #ffffff;
+    }
+    .text-center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body ng-controller="GameController">
+
+  <!-- Game Heading -->
+  <div class="container mt-5 text-center">
+    <h1 class="text-primary mb-4">Guess the Word Game</h1>
+  </div>
+
+  <!-- Login / Signup Section -->
+  <div class="container mt-5" ng-show="!isAuthenticated">
+    <!-- Toggle Buttons for Login and Sign Up -->
+    <div class="text-center mb-4">
+      <button class="btn btn-primary btn-lg mr-3" ng-click="showLogin=true; showSignup=false" ng-disabled="showLogin">Login</button>
+      <button class="btn btn-success btn-lg" ng-click="showLogin=false; showSignup=true" ng-disabled="showSignup">Sign Up</button>
+    </div>
+
+    <!-- Login Section -->
+    <div ng-show="showLogin">
+      <h2 class="text-center mb-4 text-primary">Login</h2>
+      <form ng-submit="login()">
+        <div class="form-group">
+          <input type="text" class="form-control form-control-lg" ng-model="loginUsername" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control form-control-lg" ng-model="loginPassword" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Login</button>
+      </form>
+    </div>
+  
+    <!-- Sign Up Section -->
+    <div ng-show="showSignup">
+      <h2 class="text-center mb-4 text-success">Sign Up</h2>
+      <form ng-submit="signup()">
+        <div class="form-group">
+          <input type="text" class="form-control form-control-lg" ng-model="signupUsername" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control form-control-lg" ng-model="signupPassword" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg btn-block mt-3">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Game Section -->
+  <div class="container mt-5" ng-show="isAuthenticated">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Welcome, {{ username }}</h2>
+      <button class="btn btn-danger" ng-click="logout()">Logout</button>
+    </div>
+
+    <div class="alert alert-info mt-3">⏳ Time Left: {{ timer }} seconds</div>
+
+    <div class="alert alert-warning" ng-if="scrambledWord">🔀 Scrambled Word: <strong>{{ scrambledWord }}</strong></div>
+    <div class="alert alert-secondary" ng-if="hint">💡 Hint: {{ hint }}</div>
+
+    <input type="text" class="form-control mt-3" ng-model="userGuess" placeholder="Enter your guess">
+    <button class="btn btn-primary mt-3" ng-click="checkAnswer()">Submit Guess</button>
+
+    <div class="mt-4">
+      <h4>🏆 Leaderboard - (Top-10)</h4>
+      <ul class="list-group ">
+        <li class="list-group-item bg-dark" ng-repeat="player in leaderboard">
+          {{ player.username }} - {{ player.score }} points
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Game Script -->
+  <script src="app.js"></script>
+</body>
+</html>
