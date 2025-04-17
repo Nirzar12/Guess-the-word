@@ -24,7 +24,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd Guess-the-code 
+  cd Guess-the-word 
 ```
 
 Install dependencies
